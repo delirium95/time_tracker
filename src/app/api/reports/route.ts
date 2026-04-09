@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { format } from "date-fns";
+import { TimeEntry } from "@/lib/types";
 
 export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url);
@@ -32,7 +33,7 @@ export async function GET(req: NextRequest) {
   if (exportCsv) {
     const rows = [
       ["Date", "Task", "Project", "Start", "End", "Duration (min)"],
-      ...entries.map((e) => [
+      ...entries.map((e: TimeEntry) => [
         format(e.startTime, "yyyy-MM-dd"),
         e.taskName,
         e.project?.name || "",
