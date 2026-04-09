@@ -191,6 +191,9 @@ SQLite file-based DB doesn't work on Vercel (serverless, ephemeral filesystem). 
 **What happened:**
 - Added Deployment section to README (live URL, env vars table, deploy-your-own instructions, local vs production DB routing note)
 - Updated PROMPTS.md with sessions 3–4
+- Fixed two remaining TypeScript `implicit any` errors in `reports/route.ts`
+- Added `prisma generate` to build script (Vercel doesn't run it automatically)
+- Successful production deploy: https://time-tracker-lime-xi.vercel.app
 
 ---
 

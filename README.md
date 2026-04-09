@@ -181,7 +181,7 @@ Every API route logs at the operation level (`timeEntries.start`, `projects.crea
 
 The app is deployed on **Vercel** with **Turso** (hosted SQLite) as the production database.
 
-Live URL: https://time-tracker-gilt-mu.vercel.app
+Live URL: https://time-tracker-lime-xi.vercel.app
 
 ### Environment variables (Vercel)
 
