@@ -22,8 +22,15 @@ export async function POST(req: NextRequest) {
     });
     logger.info({ id: project.id, name: project.name }, "projects.create");
     return NextResponse.json(project, { status: 201 });
-  } catch {
-    logger.warn({ name }, "projects.create.duplicate");
-    return NextResponse.json({ error: "Project name already exists" }, { status: 409 });
+  } catch (err: unknown) {
+    const isUniqueViolation =
+      err instanceof Error &&
+      (err.message.includes("UNIQUE constraint") || err.message.includes("P2002"));
+    if (isUniqueViolation) {
+      logger.warn({ name }, "projects.create.duplicate");
+      return NextResponse.json({ error: "Project name already exists" }, { status: 409 });
+    }
+    logger.error({ err, name }, "projects.create.error");
+    return NextResponse.json({ error: "Failed to create project" }, { status: 500 });
   }
 }
