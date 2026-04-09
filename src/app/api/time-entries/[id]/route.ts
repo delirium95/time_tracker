@@ -14,11 +14,11 @@ export async function PUT(
     const entry = await prisma.timeEntry.update({
       where: { id },
       data: {
-        taskName: taskName?.trim(),
-        projectId: projectId ?? null,
-        startTime: startTime ? new Date(startTime) : undefined,
-        endTime: endTime ? new Date(endTime) : null,
-        durationSec: durationSec ?? null,
+        ...(taskName !== undefined && { taskName: taskName.trim() }),
+        ...("projectId" in body && { projectId: projectId ?? null }),
+        ...(startTime !== undefined && { startTime: new Date(startTime) }),
+        endTime: endTime ? new Date(endTime) : (endTime === null ? null : undefined),
+        ...(durationSec !== undefined && { durationSec: durationSec ?? null }),
       },
       include: { project: true },
     });

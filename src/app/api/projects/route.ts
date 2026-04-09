@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { Prisma } from "@prisma/client";
 import { prisma } from "@/lib/prisma";
 import { logger } from "@/lib/logger";
 
@@ -23,10 +24,7 @@ export async function POST(req: NextRequest) {
     logger.info({ id: project.id, name: project.name }, "projects.create");
     return NextResponse.json(project, { status: 201 });
   } catch (err: unknown) {
-    const isUniqueViolation =
-      err instanceof Error &&
-      (err.message.includes("UNIQUE constraint") || err.message.includes("P2002"));
-    if (isUniqueViolation) {
+    if (err instanceof Prisma.PrismaClientKnownRequestError && err.code === "P2002") {
       logger.warn({ name }, "projects.create.duplicate");
       return NextResponse.json({ error: "Project name already exists" }, { status: 409 });
     }

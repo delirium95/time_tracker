@@ -97,12 +97,12 @@ export default function TimeEntryList({ entries, projects, onUpdate, onDelete }:
               {editingId === entry.id ? (
                 <div className="flex items-center gap-2 flex-wrap">
                   <input
-                    className="flex-1 min-w-32 border rounded px-2 py-1 text-sm"
+                    className="flex-1 min-w-32 border rounded px-2 py-1 text-sm text-gray-900 bg-white"
                     value={editValues.taskName}
                     onChange={(e) => setEditValues((v) => ({ ...v, taskName: e.target.value }))}
                   />
                   <select
-                    className="border rounded px-2 py-1 text-sm"
+                    className="border rounded px-2 py-1 text-sm text-gray-900 bg-white"
                     value={editValues.projectId}
                     onChange={(e) => setEditValues((v) => ({ ...v, projectId: e.target.value }))}
                   >
@@ -113,14 +113,14 @@ export default function TimeEntryList({ entries, projects, onUpdate, onDelete }:
                   </select>
                   <input
                     type="time"
-                    className="border rounded px-2 py-1 text-sm"
+                    className="border rounded px-2 py-1 text-sm text-gray-900 bg-white"
                     value={editValues.startTime}
                     onChange={(e) => setEditValues((v) => ({ ...v, startTime: e.target.value }))}
                   />
                   <span className="text-gray-400">→</span>
                   <input
                     type="time"
-                    className="border rounded px-2 py-1 text-sm"
+                    className="border rounded px-2 py-1 text-sm text-gray-900 bg-white"
                     value={editValues.endTime}
                     onChange={(e) => setEditValues((v) => ({ ...v, endTime: e.target.value }))}
                   />

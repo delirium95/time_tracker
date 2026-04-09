@@ -67,7 +67,7 @@ export default function ProjectsPage() {
         <div className="flex-1">
           <label className="block text-xs text-gray-500 mb-1">Project name</label>
           <input
-            className="w-full border rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-400"
+            className="w-full border rounded-lg px-3 py-2 text-sm text-gray-900 bg-white placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-400"
             placeholder="e.g. Client Work"
             value={name}
             onChange={(e) => setName(e.target.value)}
@@ -111,7 +111,7 @@ export default function ProjectsPage() {
             {editingId === p.id ? (
               <>
                 <input
-                  className="flex-1 border rounded px-2 py-1 text-sm"
+                  className="flex-1 border rounded px-2 py-1 text-sm text-gray-900 bg-white"
                   value={editName}
                   onChange={(e) => setEditName(e.target.value)}
                 />

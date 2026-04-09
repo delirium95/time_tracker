@@ -60,7 +60,7 @@ export default function TimerBar({
     <div className="bg-white border-b shadow-sm px-6 py-3 flex items-center gap-4">
       <div className="relative flex-1">
         <input
-          className="w-full border rounded-lg px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-400"
+          className="w-full border rounded-lg px-4 py-2 text-sm text-gray-900 bg-white placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-400"
           placeholder="What are you working on?"
           value={taskName}
           onChange={(e) => handleTaskInput(e.target.value)}
