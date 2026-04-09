@@ -177,6 +177,41 @@ Every API route logs at the operation level (`timeEntries.start`, `projects.crea
 
 ---
 
+## Deployment
+
+The app is deployed on **Vercel** with **Turso** (hosted SQLite) as the production database.
+
+Live URL: https://time-tracker-gilt-mu.vercel.app
+
+### Environment variables (Vercel)
+
+| Variable | Description |
+|---|---|
+| `TURSO_DATABASE_URL` | Turso database URL (`libsql://...`) |
+| `TURSO_AUTH_TOKEN` | Turso auth token |
+
+### Deploy your own
+
+```bash
+# 1. Create a Turso database
+turso db create time-tracker
+turso db tokens create time-tracker   # save the token
+
+# 2. Apply schema to Turso (Prisma migrate doesn't understand libsql:// URLs)
+turso db shell time-tracker < prisma/migrations/20260409115523_init/migration.sql
+
+# 3. Deploy to Vercel
+vercel --scope <your-scope> \
+  --env TURSO_DATABASE_URL="libsql://..." \
+  --env TURSO_AUTH_TOKEN="..."
+```
+
+### Local vs production database routing
+
+`src/lib/prisma.ts` prefers `TURSO_DATABASE_URL` when set, falls back to `DATABASE_URL` (local SQLite file). Tests always use an isolated temp-file SQLite via `better-sqlite3` — they never touch Turso.
+
+---
+
 ## API Reference
 
 ### Projects

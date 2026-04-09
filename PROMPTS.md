@@ -136,7 +136,65 @@ npm install --save-dev vitest @vitejs/plugin-react @vitest/coverage-v8 supertest
 
 ---
 
-## Session 3 — README and Prompt Log
+## Session 3 — README, Prompt Log, and Vercel Deployment
+
+### Prompt 4
+> Чіткий README з інструкціями / Опис архітектурних рішень / Усі зміни мають бути відтворювані: кандидат зобов'язаний вести лог промптів
+
+**What happened:**
+- Wrote `README.md` with quick start, scripts table, full project structure, architecture section, API reference
+- Wrote `PROMPTS.md` (this file)
+
+---
+
+### Prompt 5
+> now I have to push to https://github.com/delirium95/time_tracker.git but under nikita3grynov@gmail.com
+
+**What happened:**
+- Set `git config user.email "nikita3grynov@gmail.com"` locally in the repo
+- Added `.db` files to `.gitignore`, ran `git rm --cached` to untrack them
+- Committed all 31 files, added remote, pushed with provided GitHub PAT
+- Cleared PAT from remote URL after push
+
+---
+
+### Prompt 6
+> тепер допоможи з деплоєм у версель
+
+**What happened — database migration:**
+SQLite file-based DB doesn't work on Vercel (serverless, ephemeral filesystem). Switched to **Turso** (hosted SQLite, libsql protocol).
+
+1. Installed Turso CLI via `curl -sSfL https://get.tur.so/install.sh`
+2. User already had database: `libsql://time-tracker-delirium95.aws-us-west-2.turso.io`
+3. Auth via `turso config set token` (headless flow for remote dev environment)
+4. Created DB auth token: `turso db tokens create time-tracker`
+5. Applied schema via `turso db shell` (Prisma migrate doesn't support `libsql://` URLs)
+
+**Code changes:**
+- Installed `@libsql/client @prisma/adapter-libsql`
+- Updated `src/lib/prisma.ts` — replaced `PrismaBetterSqlite3` with `PrismaLibSql`, reads `TURSO_DATABASE_URL` + `TURSO_AUTH_TOKEN`
+- Updated `prisma.config.ts` — simplified to just pass URL (authToken not supported in config type)
+- Tests unchanged — still use `better-sqlite3` via `createTestDb()` (correct: tests should be isolated from production DB)
+
+**Issues encountered:**
+- `PrismaLibSQL` → correct export name is `PrismaLibSql` (case sensitive)
+- `PrismaLibSql` takes a Config object `{ url, authToken }`, not a pre-created Client instance
+- Vercel build caught two additional TS errors in `reports/route.ts`: implicit `any` on map callbacks — fixed by adding explicit types
+
+---
+
+## Session 4 — README and Prompt Log Updates
+
+### Prompt 7
+> також не забудь оновити рідмі і логи промптів
+
+**What happened:**
+- Added Deployment section to README (live URL, env vars table, deploy-your-own instructions, local vs production DB routing note)
+- Updated PROMPTS.md with sessions 3–4
+
+---
+
+## Session 3 — README and Prompt Log *(original heading — kept for history)*
 
 ### Prompt 4
 > Чіткий README з інструкціями / Опис архітектурних рішень / Усі зміни мають бути відтворювані: кандидат зобов'язаний вести лог промптів

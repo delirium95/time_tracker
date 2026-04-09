@@ -42,7 +42,7 @@ export async function GET(req: NextRequest) {
         e.durationSec ? String(Math.round(e.durationSec / 60)) : "",
       ]),
     ];
-    const csv = rows.map((r) => r.map((c) => `"${c}"`).join(",")).join("\n");
+    const csv = rows.map((r) => r.map((c: string) => `"${c}"`).join(",")).join("\n");
     return new NextResponse(csv, {
       headers: {
         "Content-Type": "text/csv",
